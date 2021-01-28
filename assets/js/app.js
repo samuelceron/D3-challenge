@@ -47,8 +47,8 @@ d3.csv("assets/data/data.csv").then(function(data){
     // Step 4: Append Axes to the chart
     // ==============================
     chartGroup.append("g")
-    .attr("transform", `translate(0, ${height})`)
-    .call(xAxis)
+        .attr("transform", `translate(0, ${height})`)
+        .call(xAxis)
 
     chartGroup.append("g")
     .call(yAxis)
@@ -56,14 +56,27 @@ d3.csv("assets/data/data.csv").then(function(data){
     // Step 5: Create Circles
     // ==============================
     let circlesGroup = chartGroup.selectAll("circle")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("cx", d => xLinearScale(d.poverty))
-    .attr("cy", d=> yLinearScale(d.healthcare))
-    .attr("r", "15")
-    .attr("fill", "blue")
-    .attr("opacity", ".8");
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", d => xLinearScale(d.poverty))
+        .attr("cy", d=> yLinearScale(d.healthcare))
+        .attr("r", "15")
+        .attr("fill", "black")
+        .attr("opacity", ".8");
+
+    // Create text tags inside circles
+    let text = chartGroup.append("text")
+        .selectAll("tspan")
+        .style("font-family", "Sans-serif")
+        .data(data)
+        .enter()
+        .append("tspan")
+        .attr("x", d => xLinearScale(d.poverty - 0.12))
+        .attr("y", d => yLinearScale(d.healthcare - 0.20))
+        .attr("font-size", "10")
+        .attr("fill","orange")
+        .text(d=> d.abbr)
 
     // Create axes labels
     chartGroup.append("text")
